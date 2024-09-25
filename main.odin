@@ -46,7 +46,7 @@ new_chip8 :: proc() -> Chip8 {
 	for i in 0 ..< len(fonts) {
 		memory[i] = fonts[i]
 	}
-	return Chip8{pc = 0x200, memory = memory}
+	return Chip8{pc = 0x200, opcode = 0, I = 0, sp = 0, memory = memory}
 }
 
 main :: proc() {
