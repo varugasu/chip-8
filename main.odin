@@ -41,7 +41,17 @@ Chip8 :: struct {
 	key:         [16]u8, // keypad input
 }
 
+new_chip8 :: proc() -> Chip8 {
+	memory := [4096]u8{}
+	for i in 0 ..< len(fonts) {
+		memory[i] = fonts[i]
+	}
+	return Chip8{pc = 0x200, memory = memory}
+}
+
 main :: proc() {
+	chip8 := new_chip8()
+
 	rl.InitWindow(GRAPHICS_WIDTH * 16, GRAPHICS_HEIGHT * 16, "Chip8")
 	rl.SetTargetFPS(60)
 
