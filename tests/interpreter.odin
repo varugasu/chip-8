@@ -6,6 +6,20 @@ import "core:math/rand"
 import "core:testing"
 
 @(test)
+decode_opcode_00E0 :: proc(t: ^testing.T) {
+	interpreter := chip8.new_interpreter()
+	for i in 1 ..< len(interpreter.gfx) {
+		interpreter.gfx[i] = 1
+	}
+	chip8.decode_opcode(&interpreter, 0x00E0)
+	for i in 0 ..< len(interpreter.gfx) {
+		if !testing.expect(t, interpreter.gfx[i] == 0) {
+			break
+		}
+	}
+}
+
+@(test)
 decode_opcode_1NNN :: proc(t: ^testing.T) {
 	interpreter := chip8.new_interpreter()
 	chip8.decode_opcode(&interpreter, 0x1234)

@@ -67,8 +67,13 @@ decode_opcode :: proc(interpreter: ^Interpreter, opcode: u16) {
 	NN := get_last_two_nibbles(opcode)
 	NNN := get_last_three_nibbles(opcode)
 
+
 	switch left_most_nibble {
 	case 0x0:
+		switch opcode {
+		case 0x00E0:
+			interpreter.gfx = [GRAPHICS_WIDTH * GRAPHICS_HEIGHT]u8{}
+		}
 	case 0x1:
 		interpreter.pc = NNN
 		break
