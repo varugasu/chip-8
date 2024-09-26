@@ -104,6 +104,8 @@ decode_opcode :: proc(interpreter: ^Interpreter, opcode: u16) {
 		}
 		break
 	case 0xA:
+		interpreter.I = NNN
+		break
 	case 0xB:
 	case 0xC:
 	case 0xD:

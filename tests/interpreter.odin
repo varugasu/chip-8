@@ -118,3 +118,10 @@ decode_opcode_9XY0_no_skip :: proc(t: ^testing.T) {
 	chip8.decode_opcode(&interpreter, 0x9560)
 	testing.expect(t, interpreter.pc == 0x200)
 }
+
+@(test)
+decode_opcode_ANNN :: proc(t: ^testing.T) {
+	interpreter := chip8.new_interpreter()
+	chip8.decode_opcode(&interpreter, 0xA555)
+	testing.expect(t, interpreter.I == 0x555)
+}
