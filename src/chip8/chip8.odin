@@ -61,15 +61,17 @@ emulate_cycle :: proc(interpreter: ^Interpreter) {
 
 decode_opcode :: proc(interpreter: ^Interpreter, opcode: u16) {
 	left_most_nibble := get_left_most_nibble(opcode)
+	nnn := get_last_three_nibbles(opcode)
+
 	switch left_most_nibble {
 	case 0x0:
 	case 0x1:
-		interpreter.pc = get_last_three_nibbles(opcode)
+		interpreter.pc = nnn
 		break
 	case 0x2:
 		interpreter.stack[interpreter.sp] = interpreter.pc
 		interpreter.sp += 1
-		interpreter.pc = get_last_three_nibbles(opcode)
+		interpreter.pc = nnn
 		break
 	case 0x3:
 	case 0x4:
