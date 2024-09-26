@@ -62,6 +62,7 @@ emulate_cycle :: proc(interpreter: ^Interpreter) {
 decode_opcode :: proc(interpreter: ^Interpreter, opcode: u16) {
 	left_most_nibble := get_left_most_nibble(opcode)
 	X := get_second_nibble(opcode)
+	Y := get_third_nibble(opcode)
 	NN := get_last_two_nibbles(opcode)
 	NNN := get_last_three_nibbles(opcode)
 
@@ -86,6 +87,10 @@ decode_opcode :: proc(interpreter: ^Interpreter, opcode: u16) {
 		}
 		break
 	case 0x5:
+		if interpreter.V[X] == interpreter.V[Y] {
+			interpreter.pc += 2
+		}
+		break
 	case 0x6:
 	case 0x7:
 	case 0x8:

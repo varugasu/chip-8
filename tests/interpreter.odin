@@ -61,3 +61,23 @@ decode_opcode_4XNN_no_skip :: proc(t: ^testing.T) {
 	chip8.decode_opcode(&interpreter, 0x4555)
 	testing.expect(t, interpreter.pc == 0x200)
 }
+
+@(test)
+decode_opcode_5XY0_skip :: proc(t: ^testing.T) {
+	interpreter := chip8.new_interpreter()
+	interpreter.pc = 0x200
+	interpreter.V[0x5] = 0x55
+	interpreter.V[0x6] = 0x55
+	chip8.decode_opcode(&interpreter, 0x5560)
+	testing.expect(t, interpreter.pc == 0x202)
+}
+
+@(test)
+decode_opcode_5XY0_no_skip :: proc(t: ^testing.T) {
+	interpreter := chip8.new_interpreter()
+	interpreter.pc = 0x200
+	interpreter.V[0x5] = 0x55
+	interpreter.V[0x6] = 0x25
+	chip8.decode_opcode(&interpreter, 0x5560)
+	testing.expect(t, interpreter.pc == 0x200)
+}
