@@ -40,6 +40,12 @@ get_second_nibble_test :: proc(t: ^testing.T) {
 }
 
 @(test)
+get_third_nibble_test :: proc(t: ^testing.T) {
+	result := chip8.get_third_nibble(0x1234)
+	testing.expect_value(t, result, 0x3)
+}
+
+@(test)
 get_last_two_nibbles_test :: proc(t: ^testing.T) {
 	result := chip8.get_last_two_nibbles(0x1234)
 	testing.expect_value(t, result, 0x34)
