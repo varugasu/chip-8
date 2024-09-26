@@ -93,7 +93,10 @@ decode_opcode :: proc(interpreter: ^Interpreter, opcode: u16) {
 		break
 	case 0x6:
 		interpreter.V[X] = u8(NN)
+		break
 	case 0x7:
+		interpreter.V[X] += u8(NN)
+		break
 	case 0x8:
 	case 0x9:
 	case 0xA:

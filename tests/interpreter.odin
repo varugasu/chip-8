@@ -89,3 +89,11 @@ decode_opcode_6XNN :: proc(t: ^testing.T) {
 	chip8.decode_opcode(&interpreter, 0x6555)
 	testing.expect(t, interpreter.V[0x5] == 0x55)
 }
+
+@(test)
+decode_opcode_7XNN :: proc(t: ^testing.T) {
+	interpreter := chip8.new_interpreter()
+	interpreter.V[0x5] = 0x50
+	chip8.decode_opcode(&interpreter, 0x7555)
+	testing.expect(t, interpreter.V[0x5] == 0xA5)
+}
