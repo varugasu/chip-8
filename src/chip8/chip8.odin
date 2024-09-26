@@ -48,16 +48,24 @@ new_interpreter :: proc() -> Interpreter {
 	return Interpreter{pc = 0x200, opcode = 0, I = 0, sp = 0, memory = memory}
 }
 
-emulate_cycle :: proc(chip8: ^Interpreter) {
+emulate_cycle :: proc(interpreter: ^Interpreter) {
 	// Fetch
 	// opcode are 2 bytes
-	opcode := u16(chip8.memory[chip8.pc]) << 8 | u16(chip8.memory[chip8.pc + 1])
+	opcode := u16(interpreter.memory[interpreter.pc]) << 8 | u16(interpreter.memory[interpreter.pc + 1])
 	left_most_nibble := get_left_most_nibble(opcode)
 
 	// Decode
+	decode_opcode(interpreter, opcode)
+
+}
+
+decode_opcode :: proc(interpreter: ^Interpreter, opcode: u16) {
+	left_most_nibble := get_left_most_nibble(opcode)
 	switch left_most_nibble {
 	case 0x0:
 	case 0x1:
+		interpreter.pc = get_last_three_nibbles(opcode)
+		break
 	case 0x2:
 	case 0x3:
 	case 0x4:

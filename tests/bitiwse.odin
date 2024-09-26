@@ -32,3 +32,9 @@ get_left_most_nibble_test :: proc(t: ^testing.T) {
 		testing.expect_value(t, result, test_case.expected)
 	}
 }
+
+@(test)
+get_last_three_nibbles_test :: proc(t: ^testing.T) {
+	result := chip8.get_last_three_nibbles(0x1234)
+	testing.expect_value(t, result, 0x234)
+}
