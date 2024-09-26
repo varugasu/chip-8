@@ -25,7 +25,7 @@ decode_opcode_2NNN :: proc(t: ^testing.T) {
 }
 
 @(test)
-decode_opcode_3XNN :: proc(t: ^testing.T) {
+decode_opcode_3XNN_skip :: proc(t: ^testing.T) {
 	interpreter := chip8.new_interpreter()
 	interpreter.pc = 0x200
 	interpreter.V[0x5] = 0x55
@@ -33,4 +33,13 @@ decode_opcode_3XNN :: proc(t: ^testing.T) {
 	// 0x3XNN means we will skip the next instruction if VX == NN
 	// 5 == 5, so we will skip the next instruction
 	testing.expect(t, interpreter.pc == 0x202)
+}
+
+@(test)
+decode_opcode_3XNN_no_skip :: proc(t: ^testing.T) {
+	interpreter := chip8.new_interpreter()
+	interpreter.pc = 0x200
+	interpreter.V[0x5] = 0x25
+	chip8.decode_opcode(&interpreter, 0x3555)
+	testing.expect(t, interpreter.pc == 0x200)
 }
