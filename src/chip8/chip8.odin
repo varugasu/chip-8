@@ -99,6 +99,10 @@ decode_opcode :: proc(interpreter: ^Interpreter, opcode: u16) {
 		break
 	case 0x8:
 	case 0x9:
+		if interpreter.V[X] != interpreter.V[Y] {
+			interpreter.pc += 2
+		}
+		break
 	case 0xA:
 	case 0xB:
 	case 0xC:

@@ -97,3 +97,24 @@ decode_opcode_7XNN :: proc(t: ^testing.T) {
 	chip8.decode_opcode(&interpreter, 0x7555)
 	testing.expect(t, interpreter.V[0x5] == 0xA5)
 }
+
+@(test)
+decode_opcode_9XY0_skip :: proc(t: ^testing.T) {
+	interpreter := chip8.new_interpreter()
+	interpreter.pc = 0x200
+	interpreter.V[0x5] = 0x50
+	interpreter.V[0x6] = 0x20
+	chip8.decode_opcode(&interpreter, 0x9560)
+	// Skip if VX != VY
+	testing.expect(t, interpreter.pc == 0x202)
+}
+
+@(test)
+decode_opcode_9XY0_no_skip :: proc(t: ^testing.T) {
+	interpreter := chip8.new_interpreter()
+	interpreter.pc = 0x200
+	interpreter.V[0x5] = 0x50
+	interpreter.V[0x6] = 0x50
+	chip8.decode_opcode(&interpreter, 0x9560)
+	testing.expect(t, interpreter.pc == 0x200)
+}
