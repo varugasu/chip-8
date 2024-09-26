@@ -20,6 +20,17 @@ decode_opcode_00E0 :: proc(t: ^testing.T) {
 }
 
 @(test)
+decode_opcode_00EE :: proc(t: ^testing.T) {
+	interpreter := chip8.new_interpreter()
+	interpreter.pc = 0x200
+	interpreter.stack[0] = 0x100
+	interpreter.sp = 1
+	chip8.decode_opcode(&interpreter, 0x00EE)
+	testing.expect(t, interpreter.pc == 0x100)
+	testing.expect(t, interpreter.sp == 0)
+}
+
+@(test)
 decode_opcode_1NNN :: proc(t: ^testing.T) {
 	interpreter := chip8.new_interpreter()
 	chip8.decode_opcode(&interpreter, 0x1234)

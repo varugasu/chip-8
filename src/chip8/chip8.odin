@@ -73,6 +73,10 @@ decode_opcode :: proc(interpreter: ^Interpreter, opcode: u16) {
 		switch opcode {
 		case 0x00E0:
 			interpreter.gfx = [GRAPHICS_WIDTH * GRAPHICS_HEIGHT]u8{}
+		case 0x00EE:
+			// usually used to return from a subroutine that was called with 0x2NNN
+			interpreter.sp -= 1
+			interpreter.pc = interpreter.stack[interpreter.sp]
 		}
 	case 0x1:
 		interpreter.pc = NNN
