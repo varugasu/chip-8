@@ -4,6 +4,8 @@ import fmt "core:fmt"
 import os "core:os"
 import rl "vendor:raylib"
 
+import chip8 "chip8"
+
 validate_args :: proc() {
 	if len(os.args) < 2 {
 		fmt.println("[!] Usage: chip8 <rom>")
@@ -13,7 +15,7 @@ validate_args :: proc() {
 	}
 }
 
-load_rom :: proc(chip8: ^Chip8) {
+load_rom :: proc(chip8: ^chip8.Interpreter) {
 	rom, err := os.open(os.args[1], os.O_RDONLY)
 	if err != nil {
 		fmt.println("[-] Error: Failed to open ROM")
@@ -32,11 +34,11 @@ load_rom :: proc(chip8: ^Chip8) {
 main :: proc() {
 	validate_args()
 
-	chip8 := new_chip8()
+	interpreter := chip8.new_interpreter()
 
-	load_rom(&chip8)
+	load_rom(&interpreter)
 
-	rl.InitWindow(GRAPHICS_WIDTH * 16, GRAPHICS_HEIGHT * 16, "Chip8")
+	rl.InitWindow(chip8.GRAPHICS_WIDTH * 16, chip8.GRAPHICS_HEIGHT * 16, "Chip8")
 	rl.SetTargetFPS(60)
 
 	for !rl.WindowShouldClose() {

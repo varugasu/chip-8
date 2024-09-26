@@ -1,4 +1,4 @@
-package main
+package chip8
 
 
 GRAPHICS_WIDTH :: 64
@@ -26,7 +26,7 @@ fonts := []u8 {
 //odinfmt: enable
 
 
-Chip8 :: struct {
+Interpreter :: struct {
 	opcode:      u16, // current opcode
 	memory:      [4096]u8, // memory
 	V:           [16]u8, // registers
@@ -40,10 +40,37 @@ Chip8 :: struct {
 	key:         [16]u8, // keypad input
 }
 
-new_chip8 :: proc() -> Chip8 {
+new_interpreter :: proc() -> Interpreter {
 	memory := [4096]u8{}
 	for i in 0 ..< len(fonts) {
 		memory[i] = fonts[i]
 	}
-	return Chip8{pc = 0x200, opcode = 0, I = 0, sp = 0, memory = memory}
+	return Interpreter{pc = 0x200, opcode = 0, I = 0, sp = 0, memory = memory}
+}
+
+emulate_cycle :: proc(chip8: ^Interpreter) {
+	// Fetch
+	// opcode are 2 bytes
+	opcode := u16(chip8.memory[chip8.pc]) << 8 | u16(chip8.memory[chip8.pc + 1])
+	left_most_nibble := get_left_most_nibble(opcode)
+
+	// Decode
+	switch left_most_nibble {
+	case 0x0:
+	case 0x1:
+	case 0x2:
+	case 0x3:
+	case 0x4:
+	case 0x5:
+	case 0x6:
+	case 0x7:
+	case 0x8:
+	case 0x9:
+	case 0xA:
+	case 0xB:
+	case 0xC:
+	case 0xD:
+	case 0xE:
+	case 0xF:
+	}
 }
