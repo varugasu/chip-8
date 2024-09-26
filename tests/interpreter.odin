@@ -1,6 +1,8 @@
 package tests
 
 import chip8 "../src/chip8"
+import "core:fmt"
+import "core:math/rand"
 import "core:testing"
 
 @(test)
@@ -132,4 +134,12 @@ decode_opcode_BNNN :: proc(t: ^testing.T) {
 	interpreter.V[0] = 0x50
 	chip8.decode_opcode(&interpreter, 0xB555)
 	testing.expect(t, interpreter.pc == 0x5A5)
+}
+
+@(test)
+decode_opcode_CXNN :: proc(t: ^testing.T) {
+	rand.reset(42)
+	interpreter := chip8.new_interpreter()
+	chip8.decode_opcode(&interpreter, 0xC555)
+	testing.expect(t, interpreter.V[0x5] == 0x44)
 }

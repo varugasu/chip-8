@@ -1,5 +1,6 @@
 package chip8
 
+import "core:math/rand"
 
 GRAPHICS_WIDTH :: 64
 GRAPHICS_HEIGHT :: 32
@@ -110,6 +111,8 @@ decode_opcode :: proc(interpreter: ^Interpreter, opcode: u16) {
 		interpreter.pc = u16(interpreter.V[0]) + NNN
 		break
 	case 0xC:
+		interpreter.V[X] = u8(rand.int_max(255)) & u8(NN)
+		break
 	case 0xD:
 	case 0xE:
 	case 0xF:
