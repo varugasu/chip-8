@@ -61,6 +61,7 @@ emulate_cycle :: proc(interpreter: ^Interpreter) {
 
 decode_opcode :: proc(interpreter: ^Interpreter, opcode: u16) {
 	left_most_nibble := get_left_most_nibble(opcode)
+	nn := get_last_two_nibbles(opcode)
 	nnn := get_last_three_nibbles(opcode)
 
 	switch left_most_nibble {
