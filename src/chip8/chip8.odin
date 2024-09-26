@@ -67,6 +67,10 @@ decode_opcode :: proc(interpreter: ^Interpreter, opcode: u16) {
 		interpreter.pc = get_last_three_nibbles(opcode)
 		break
 	case 0x2:
+		interpreter.stack[interpreter.sp] = interpreter.pc
+		interpreter.sp += 1
+		interpreter.pc = get_last_three_nibbles(opcode)
+		break
 	case 0x3:
 	case 0x4:
 	case 0x5:
