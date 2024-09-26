@@ -125,3 +125,11 @@ decode_opcode_ANNN :: proc(t: ^testing.T) {
 	chip8.decode_opcode(&interpreter, 0xA555)
 	testing.expect(t, interpreter.I == 0x555)
 }
+
+@(test)
+decode_opcode_BNNN :: proc(t: ^testing.T) {
+	interpreter := chip8.new_interpreter()
+	interpreter.V[0] = 0x50
+	chip8.decode_opcode(&interpreter, 0xB555)
+	testing.expect(t, interpreter.pc == 0x5A5)
+}
