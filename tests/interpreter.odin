@@ -181,6 +181,26 @@ decode_opcode_8XY4_no_carry :: proc(t: ^testing.T) {
 	testing.expect(t, interpreter.V[0xF] == 0x00)
 }
 
+@(test)
+decode_opcode_8XY5_borrow :: proc(t: ^testing.T) {
+	interpreter := chip8.new_interpreter()
+	interpreter.V[0x5] = 0x50
+	interpreter.V[0x6] = 0x60
+	chip8.decode_opcode(&interpreter, 0x8565)
+	testing.expectf(t, interpreter.V[0x5] == 0xF0, "V[5] should be 0x10. Got: 0x%X", interpreter.V[0x5])
+	testing.expectf(t, interpreter.V[0xF] == 0x00, "V[F] should be 0x00. Got: 0x%X", interpreter.V[0xF])
+}
+
+@(test)
+decode_opcode_8XY5_no_borrow :: proc(t: ^testing.T) {
+	interpreter := chip8.new_interpreter()
+	interpreter.V[0x5] = 0x50
+	interpreter.V[0x6] = 0x20
+	chip8.decode_opcode(&interpreter, 0x8565)
+	testing.expectf(t, interpreter.V[0x5] == 0x30, "V[5] should be 0x30. Got: 0x%X", interpreter.V[0x5])
+	testing.expectf(t, interpreter.V[0xF] == 0x01, "V[F] should be 0x01. Got: 0x%X", interpreter.V[0xF])
+}
+
 
 @(test)
 decode_opcode_9XY0_skip :: proc(t: ^testing.T) {
