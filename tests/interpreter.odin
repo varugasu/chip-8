@@ -144,6 +144,16 @@ decode_opcode_8XY1 :: proc(t: ^testing.T) {
 }
 
 @(test)
+decode_opcode_8XY2 :: proc(t: ^testing.T) {
+	interpreter := chip8.new_interpreter()
+	interpreter.V[0x5] = 0x50
+	interpreter.V[0x6] = 0x60
+	chip8.decode_opcode(&interpreter, 0x8562)
+	testing.expect(t, interpreter.V[0x5] == 0x40)
+}
+
+
+@(test)
 decode_opcode_9XY0_skip :: proc(t: ^testing.T) {
 	interpreter := chip8.new_interpreter()
 	interpreter.pc = 0x200

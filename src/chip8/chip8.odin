@@ -114,7 +114,8 @@ decode_opcode :: proc(interpreter: ^Interpreter, opcode: u16) {
 			interpreter.V[X] = interpreter.V[Y]
 		case 0x1:
 			interpreter.V[X] = interpreter.V[X] | interpreter.V[Y]
-
+		case 0x2:
+			interpreter.V[X] = interpreter.V[X] & interpreter.V[Y]
 		}
 	case 0x9:
 		if interpreter.V[X] != interpreter.V[Y] {
