@@ -66,6 +66,7 @@ decode_opcode :: proc(interpreter: ^Interpreter, opcode: u16) {
 	Y := get_third_nibble(opcode)
 	NN := get_last_two_nibbles(opcode)
 	NNN := get_last_three_nibbles(opcode)
+	fourth_nibble := NN & 0x0F
 
 
 	switch left_most_nibble {
@@ -108,6 +109,10 @@ decode_opcode :: proc(interpreter: ^Interpreter, opcode: u16) {
 		interpreter.V[X] += u8(NN)
 		break
 	case 0x8:
+		switch fourth_nibble {
+		case 0x0:
+			interpreter.V[X] = interpreter.V[Y]
+		}
 	case 0x9:
 		if interpreter.V[X] != interpreter.V[Y] {
 			interpreter.pc += 2
