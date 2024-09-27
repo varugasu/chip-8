@@ -112,6 +112,9 @@ decode_opcode :: proc(interpreter: ^Interpreter, opcode: u16) {
 		switch fourth_nibble {
 		case 0x0:
 			interpreter.V[X] = interpreter.V[Y]
+		case 0x1:
+			interpreter.V[X] = interpreter.V[X] | interpreter.V[Y]
+
 		}
 	case 0x9:
 		if interpreter.V[X] != interpreter.V[Y] {
