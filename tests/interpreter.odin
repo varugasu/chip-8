@@ -201,6 +201,15 @@ decode_opcode_8XY5_no_borrow :: proc(t: ^testing.T) {
 	testing.expectf(t, interpreter.V[0xF] == 0x01, "V[F] should be 0x01. Got: 0x%X", interpreter.V[0xF])
 }
 
+@(test)
+decode_opcode_8XY6 :: proc(t: ^testing.T) {
+	interpreter := chip8.new_interpreter()
+	interpreter.V[0x5] = 0x50
+	interpreter.V[0x6] = 0x65
+	chip8.decode_opcode(&interpreter, 0x8566)
+	testing.expect(t, interpreter.V[0x5] == 0x32)
+	testing.expect(t, interpreter.V[0xF] == 0x1)
+}
 
 @(test)
 decode_opcode_9XY0_skip :: proc(t: ^testing.T) {
