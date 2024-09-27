@@ -53,11 +53,10 @@ emulate_cycle :: proc(interpreter: ^Interpreter) {
 	// Fetch
 	// opcode are 2 bytes
 	opcode := u16(interpreter.memory[interpreter.pc]) << 8 | u16(interpreter.memory[interpreter.pc + 1])
-	left_most_nibble := get_left_most_nibble(opcode)
+	interpreter.pc += 2
 
 	// Decode
 	decode_opcode(interpreter, opcode)
-
 }
 
 decode_opcode :: proc(interpreter: ^Interpreter, opcode: u16) {
