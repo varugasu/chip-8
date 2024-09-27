@@ -136,6 +136,13 @@ decode_opcode :: proc(interpreter: ^Interpreter, opcode: u16) {
 			least_significant_bit := interpreter.V[Y] & 0x01
 			interpreter.V[X] = interpreter.V[Y] >> 1
 			interpreter.V[0xF] = least_significant_bit
+		case 0x7:
+			if interpreter.V[X] > interpreter.V[Y] {
+				interpreter.V[0xF] = 0x00
+			} else {
+				interpreter.V[0xF] = 0x01
+			}
+			interpreter.V[X] = interpreter.V[Y] - interpreter.V[X]
 		}
 	case 0x9:
 		if interpreter.V[X] != interpreter.V[Y] {
