@@ -43,7 +43,10 @@ main :: proc() {
 
 	for !rl.WindowShouldClose() {
 		rl.BeginDrawing()
-		rl.ClearBackground(rl.RAYWHITE)
+
+		chip8.emulate_cycle(&interpreter)
+		chip8.draw(&interpreter)
+
 		rl.EndDrawing()
 	}
 

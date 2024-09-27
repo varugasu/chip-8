@@ -1,6 +1,7 @@
 package chip8
 
 import "core:math/rand"
+import rl "vendor:raylib"
 
 GRAPHICS_WIDTH :: 64
 GRAPHICS_HEIGHT :: 32
@@ -155,12 +156,22 @@ decode_opcode :: proc(interpreter: ^Interpreter, opcode: u16) {
 		break
 	case 0xB:
 		interpreter.pc = u16(interpreter.V[0]) + NNN
-		break
 	case 0xC:
 		interpreter.V[X] = u8(rand.int_max(255)) & u8(NN)
-		break
 	case 0xD:
 	case 0xE:
 	case 0xF:
+	}
+}
+
+draw :: proc(interpreter: ^Interpreter) {
+	rl.ClearBackground(rl.BLACK)
+
+	for i in 0 ..< GRAPHICS_WIDTH * GRAPHICS_HEIGHT {
+		if interpreter.gfx[i] == 1 {
+			x := i % GRAPHICS_WIDTH
+			y := i / GRAPHICS_WIDTH
+			rl.DrawRectangle(i32(x * 16), i32(y * 16), 16, 16, rl.WHITE)
+		}
 	}
 }
