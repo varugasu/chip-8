@@ -159,6 +159,25 @@ decode_opcode :: proc(interpreter: ^Interpreter, opcode: u16) {
 	case 0xC:
 		interpreter.V[X] = u8(rand.int_max(255)) & u8(NN)
 	case 0xD:
+		interpreter.V[0xF] = 0
+		// sprites are N bytes tall and 8 pixels wide
+		x := interpreter.V[X] % GRAPHICS_WIDTH
+		y := interpreter.V[Y] % GRAPHICS_HEIGHT
+		N := fourth_nibble
+		for row in 0 ..< N {
+			pixel_y := (y + u8(row)) % GRAPHICS_HEIGHT
+			sprite_byte := interpreter.memory[interpreter.I + u16(row)]
+			for col in 0 ..< 8 {
+				pixel_x := (x + u8(col)) % GRAPHICS_WIDTH
+				// we must cast to u16 to avoid overflow
+				pixel_index := u16(pixel_y) * GRAPHICS_WIDTH + u16(pixel_x)
+				pixel := (sprite_byte >> (7 - u8(col))) & 0x1
+				if pixel == 1 && interpreter.gfx[pixel_index] == 1 {
+					interpreter.V[0xF] = 1
+				}
+				interpreter.gfx[pixel_index] ~= pixel
+			}
+		}
 	case 0xE:
 	case 0xF:
 	}
