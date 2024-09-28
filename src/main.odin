@@ -44,7 +44,9 @@ main :: proc() {
 	for !rl.WindowShouldClose() {
 		rl.BeginDrawing()
 
-		chip8.emulate_cycle(&interpreter)
+		for i in 0 ..< 16 {
+			chip8.emulate_cycle(&interpreter)
+		}
 		chip8.draw(&interpreter)
 
 		rl.EndDrawing()
